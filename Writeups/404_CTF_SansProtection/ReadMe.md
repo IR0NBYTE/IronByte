@@ -1,4 +1,4 @@
-You can download the binary from here : [Download](./fragile).
+Before we start you need to download the binary from here : [Download](./fragile).
 
 Here we go, let's start by checking the architecture of the binary with : 
 ```bash
