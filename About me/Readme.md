@@ -9,8 +9,9 @@ I'm a network and telecommunication Student at the National Institute Of Science
 
 # I'M INTERESTED IN : 
 * Binary Exploitation.
-* Programming. 
+* Programming.
 * Reverse Engineering.
+* Malware Analysis.
 
 # BACK :
 * [Home Page](https://ir0nbyte.github.io/IronByte/).
