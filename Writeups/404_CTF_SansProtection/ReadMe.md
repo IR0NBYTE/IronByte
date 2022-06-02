@@ -7,9 +7,10 @@ Here we go let's start by running the binary and see what we have :
 └─$ ./fragile
 Montrez-nous de quoi vous êtes capable !
 Cadeau : 0x7fff8ec7ec20
-Asslema ya hmema
+Asslema ya Hmema
 ````
-As you can see the binary gave us some random memory adresse with a beautiful hello in *french*. Why don't we start by checking the architecture of the binary with : 
+
+As you can see the binary gave us some random memory address with a beautiful hello in *french*. Why don't we start by checking the architecture of the binary with : 
 ```console
 (ironbyte㉿IronByte)-[/mnt/c/Users/IR0NYTE/Desktop/ctf]
 └─$ file fragile
@@ -25,6 +26,7 @@ As we can see the architecture of the binary is 0x64 bit, it's also dynamically 
 (ironbyte㉿IronByte)-[/mnt/c/Users/IR0NYTE/Desktop/ctf]
 └─$ pwn checksec fragile
 ````
+
 We got : 
 
 ````bash 
@@ -36,5 +38,10 @@ We got :
     PIE:      No PIE (0x400000)
     RWX:      Has RWX segments
 ````
+
+So as you can see we have no stack canary protecting the stack from overriding the return of the program, we also have the right to execute code in the stack since the **NX** is disabled. Since this two mitagations are off i was curious a little of bit to know more about this random address that the binary was throwing at me so i fired up my ghidra and started making some analysis on it, here's what i got : 
+
+
+
 
 
