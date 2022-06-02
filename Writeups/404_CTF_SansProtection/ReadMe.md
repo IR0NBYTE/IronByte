@@ -39,9 +39,30 @@ We got :
     RWX:      Has RWX segments
 ````
 
-So as you can see we have no stack canary protecting the stack from overriding the return of the program, we also have the right to execute code in the stack since the **NX** is disabled. Since this two mitagations are off i was curious a little of bit to know more about this random address that the binary was throwing at me so i fired up my ghidra and started making some analysis on it, here's what i got : 
+So as you can see we have no stack canary protecting the stack from overriding the return of the program, we also have the right to execute code in the stack since the **NX** is disabled. Since this two mitagations are off i was curious a little of bit to know more about this random address that the binary was throwing at me so i fired up my ghidra and started making some analysis on it, i tried to decompile the main. Here's what i got : 
 
 <img src = "./404_CTF_sansProtection.png">
+
+After a quick look at the main, i noticed that there was a call to the **gets** function wich was a little of bit wired since the **gets** function have no limit on the size of the input which can lead to a buffer overflow attack. After that, i have noticed also that the address that the program was displaying was the address of the buffer. The idead is quite simple, we will try to inject a 0x64 bit shellcode in the beginning of the buffer from [Shell Storm Website](https://shell-storm.org/shellcode/) that will give us a *system("bin/bash")* Syscall, after that we will try to overflow the buffer until we get to the return address of the program than just redierct the return to the address of the buffer to execute our malicious shellcode. so we needed to calculate the offset between the buffer and the return address. Let's fire up the gdb and set a break point after that **gets** call so i just typed in "mike" and then tried to calculate the offset from there :
+
+````gdb
+gef➤  search-pattern "mike"
+[+] Searching 'mike' in memory
+[+] In '[heap]'(0x602000-0x623000), permission=rw-
+  0x6022a0 - 0x6022a6  →   "mike\n"
+[+] In '[stack]'(0x7ffffffde000-0x7ffffffff000), permission=rwx
+  0x7fffffffe0f0 - 0x7fffffffe0f4  →   "mike"
+gef➤  i f
+Stack level 0, frame at 0x7fffffffe140:
+ rip = 0x400662; saved rip = 0x7ffff7e0d7fd
+ called by frame at 0x7fffffffe210
+ Arglist at 0x7fffffffe0e8, args:
+ Locals at 0x7fffffffe0e8, Previous frame's sp is 0x7fffffffe140
+ Saved registers:
+  rbp at 0x7fffffffe130, rip at 0x7fffffffe138
+````
+
+
 
 
 
