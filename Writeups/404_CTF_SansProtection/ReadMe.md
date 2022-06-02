@@ -2,7 +2,8 @@ Before we start you need to download the binary from here : [Binary](./fragile).
 
 Here we go, let's start by checking the architecture of the binary with : 
 ```console
-file fragile
+(ironbyte㉿IronByte)-[/mnt/c/Users/IR0NYTE/Desktop/ctf]
+└─$ file fragile
 ```
 We get : 
 
@@ -12,6 +13,7 @@ fragile: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked
 As we can see the architecture of the binary 0x64 bit, it's also dynamically linked and not striped. Let's try checking out the mitigations on this binary : 
 
 ````console
-pwn checksec fragile
+(ironbyte㉿IronByte)-[/mnt/c/Users/IR0NYTE/Desktop/ctf]
+└─$ pwn checksec fragile
 ````
 
