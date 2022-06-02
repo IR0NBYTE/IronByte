@@ -41,6 +41,8 @@ We got :
 
 So as you can see we have no stack canary protecting the stack from overriding the return of the program, we also have the right to execute code in the stack since the **NX** is disabled. Since this two mitagations are off i was curious a little of bit to know more about this random address that the binary was throwing at me so i fired up my ghidra and started making some analysis on it, here's what i got : 
 
+<img src = "./404_CTF_sansProtection.png">
+
 
 
 
