@@ -18,7 +18,7 @@ As we can see the architecture of the binary is 0x64 bit, it's also dynamically 
 ````
 We got : 
 
-````console 
+````bash 
 [*] '/mnt/c/Users/IR0NYTE/Desktop/ctf/fragile'
     Arch:     amd64-64-little
     RELRO:    Partial RELRO
