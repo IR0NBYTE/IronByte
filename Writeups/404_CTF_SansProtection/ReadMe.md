@@ -1,11 +1,20 @@
 Before we start you need to download the binary from here : [Binary](./fragile).
 
-Here we go, let's start by checking the architecture of the binary with : 
+Here we go let's start by running the binary and see what we have : 
+
+````console
+(ironbyte㉿IronByte)-[/mnt/c/Users/IR0NYTE/Desktop/ctf]
+└─$ ./fragile
+Montrez-nous de quoi vous êtes capable !
+Cadeau : 0x7fff8ec7ec20
+Asslema ya hmema
+````
+As you can see the binary gave us some random memory adresse with a beautiful hello in *french*. Why don't we start by checking the architecture of the binary with : 
 ```console
 (ironbyte㉿IronByte)-[/mnt/c/Users/IR0NYTE/Desktop/ctf]
 └─$ file fragile
 ```
-We get : 
+We got : 
 
 ````bash
 fragile: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=6a457609506482cdebb144dbacd9c1f6fba34955, stripped
