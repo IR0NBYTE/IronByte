@@ -1,4 +1,4 @@
-<img src="./static/me.jpg" width="128"/>
+<img src="../static/me.jpg" width="128"/>
 
 [<img src="https://s18955.pcdn.co/wp-content/uploads/2018/02/github.png" width="25"/>](https://github.com/IR0NBYTE)
 # BIOGRAPHIE :
