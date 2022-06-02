@@ -12,13 +12,13 @@ fragile: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked
 ````
 As we can see the architecture of the binary is 0x64 bit, it's also dynamically linked and not striped. Let's try checking out the mitigations that is ON : 
 
-````bash
+````console
 (ironbyte㉿IronByte)-[/mnt/c/Users/IR0NYTE/Desktop/ctf]
 └─$ pwn checksec fragile
 ````
 We got : 
 
-````bash 
+````console 
 [*] '/mnt/c/Users/IR0NYTE/Desktop/ctf/fragile'
     Arch:     amd64-64-little
     RELRO:    Partial RELRO
