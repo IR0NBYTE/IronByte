@@ -1,6 +1,6 @@
 # Writeups : 
 
-## CTF404 "Sans Protection"
+## 404 CTF "Sans Protection"
 
-## CTF 404 "Trops Facile"
+## 404 CTF "Trops Facile"
 
