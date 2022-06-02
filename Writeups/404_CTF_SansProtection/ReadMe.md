@@ -10,7 +10,7 @@ Cadeau : 0x7fff8ec7ec20
 Asslema ya Hmema
 ````
 
-As you can see the binary gave us some random memory address with a beautiful hello in *french*. Why don't we start by checking the architecture of the binary with : 
+As you can see the binary gave us some random memory address with a beautiful hello in *french*. Why don't we start by checking the architecture of the binary with the file command : 
 ```console
 (ironbyte㉿IronByte)-[/mnt/c/Users/IR0NYTE/Desktop/ctf]
 └─$ file fragile
@@ -43,7 +43,7 @@ So as you can see we have no stack canary protecting the stack from overriding t
 
 <img src = "./404_CTF_sansProtection.png">
 
-After a quick look at the main, i noticed that there was a call to the **gets** function wich was a little of bit wired since the **gets** function have no limit on the size of the input which can lead to a buffer overflow attack. After that, i have noticed also that the address that the program was displaying was the address of the buffer. The idead is quite simple, we will try to inject a 0x64 bit shellcode in the beginning of the buffer from [Shell Storm](https://shell-storm.org/shellcode/) that will give us a *system("bin/bash")* Syscall, after that we will try to overflow the buffer until we get to the return address of the program than just redierct the return to the address of the buffer to execute our malicious shellcode. so we needed to calculate the offset between the buffer and the return address. Let's fire up the gdb and set a break point after that **gets** call so i just typed in "mike" and then tried to calculate the offset from there :
+After a quick look at the main, i noticed that there was a call to the **gets** function wich was a little of bit wired since the **gets** function have no limit on the size of the input which can lead to a buffer overflow attack. After that, i have noticed also that the address that the program was displaying was the address of the buffer. The idea is quite simple, we will try to inject a 64 bit shellcode in the beginning of the buffer from [Shell Storm](https://shell-storm.org/shellcode/) which will spawn for us a shell (*system("bin/bash")* Syscall), after that we will try to overflow the buffer until we get to the return address of the program then just redirect the return to the address of the buffer to execute our malicious shellcode. so we need to calculate the offset between the buffer and the return address. Let's fire up the gdb and set a break point after that **gets** call than i just typed in "mike" and then tried to calculate the offset from there :
 
 ````gdb
 gef➤  search-pattern "mike"
