@@ -20,7 +20,7 @@ We got :
 ````bash
 fragile: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=6a457609506482cdebb144dbacd9c1f6fba34955, stripped
 ````
-As we can see the architecture of the binary is 0x64 bit, it's also dynamically linked and not striped. Let's try checking out the mitigations that is ON : 
+As we can see the architecture of the binary is 64 bit, it's also dynamically linked and not striped. Let's try checking out the mitigations that is ON : 
 
 ````console
 (ironbyte㉿IronByte)-[/mnt/c/Users/IR0NYTE/Desktop/ctf]
