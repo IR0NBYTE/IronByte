@@ -121,6 +121,35 @@ mat7:
 }
 ````
 
-First thing to notice was that there was a guess_me function out of the main function that asks for a guess number than try to compare it with another number *'fav_num'* that was randomly  generated then if your guess is right it will cat for you the flag. Anyway, looking more at the code made me notice another thing wich is a critcal vunerbility in the code. It was the **'printf(format)'**, actually that printf is vunerable to the *string format vunerbilty* because we are not specifing the format of each variable passed through the **printf()** function, which can let you leak/write data out of the stack so the first thing that come to my mind was to try to change the value of that favorite_number into a number that i know then try to caall the guess_me function then i noticed that the value of favorite number will be always randomized. Anyway, that idead was not good enough to solve the puzzle, i took a look at the option number 1 and it comes to me the idea of just handling the 2 lines **srand(time(NULL)); int fav_num = rand() % 1000000;** by myself  by importing the libc library and calling the *time* and the *srand* functions from there to just give me the same random value that the srand is giving, after that just passing that value to the guess_me function to get the flag. That idea was like more easier to implement that using the format string 
+First thing to notice was that there was a guess_me function out of the main function that asks for a guess number than try to compare it with another number *'fav_num'* that was randomly  generated then if your guess is right it will cat for you the flag. Anyway, looking more at the code made me notice another thing wich is a critcal vunerbility in the code. It was the **'printf(format)'**, actually that printf is vunerable to the *string format vunerbilty* because we are not specifing the format of each variable passed through the **printf()** function, which can let you leak/write data out of the stack so the first thing that come to my mind was to try to change the value of that favorite_number into a number that i know then try to caall the guess_me function then i noticed that the value of favorite number will be always randomized. Anyway, that idead was not good enough to solve the puzzle, i took a look at the option number 1 and it comes to me the idea of just handling the 2 lines **srand(time(NULL)); int fav_num = rand() % 1000000;** by myself  by importing the libc library and calling the *time* and the *srand* functions from there to just give me the same random value that the srand is giving, after that just passing that value to the guess_me function to get the flag. That idea was much more easier to implement than using the *format string vunerbilty*.
+Here's the exploit that i made :
+````python
+from pwn import *
+from time import time
+from ctypes import CDLL
+
+# Target = remote('challenge.404ctf.fr', 31720)
+target = process('./distrib/vuln') #You have got to change your own path of the binary.
+# target = remote('')
+# Including the libc library.
+libc = CDLL('/lib/x86_64-linux-gnu/libc.so.6')
+
+# Getting to the input of the first option.
+screen = target.recvuntil(b"register:")
+target.sendline(b"Ironbyte")
+screen = target.recvuntil(b"you?")
+target.sendline(b"1")
+screen = target.recvline()
+
+# Passing down the current time and generating the Right Number.
+libc.srand(int(time()))
+generated_Number = libc.rand() % 1000000  
+target.sendline(str(generated_Number).encode()) 
+
+# Gdb.attach(target, gdbscript='b* 00400668')
+
+target.interactive()
+target.close()
+```` 
 
 
