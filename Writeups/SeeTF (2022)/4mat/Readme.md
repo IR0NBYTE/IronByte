@@ -1,6 +1,6 @@
 Before we start you need to download the binary : [Binary](./vuln).
 
-Let's start by running the binary and see what we will got : 
+Let's start by running the binary and see what's in there : 
 
 ````console 
 ┌──(ironbyte㉿IronByte)-[/mnt/c/Users/IR0NYTE/Desktop/ctf/distrib]
@@ -27,8 +27,8 @@ Same! I love
 String
 too!
 ````
-As we can see he asking us for a name, then he is giving us some options to chose from, 1st option was to guess his favourite number, 2nd was to an input that output it back to you.
-Let's take a look at the code : 
+We can see him asking us for a name, then he is giving us some options to choose from, 1st option was to guess his favourite number, 2nd was to input something then output it back to you.
+Let's take a look at the code: 
 
 ````C
 #include <stdio.h>
@@ -120,5 +120,7 @@ mat7:
     return 0;
 }
 ````
+
+First thing to notice was that there was a guess_me function out of the main function that asks for a guess number than try to compare it with another number *'fav_num'* that was randomly  generated then if your guess is right it will cat for you the flag. Anyway, looking more at the code made me notice another thing wich is a critcal vunerbility in the code. It was the **'printf(format)'**, actually that printf is vunerable to the *string format vunerbilty* because we are not specifing the format of each variable passed through the **printf()** function, which can let you leak/write data out of the stack so the first thing that come to my mind was to try to change the value of that favorite_number into a number that i know then try to caall the guess_me function then i noticed that the value of favorite number will be always randomized. Anyway, that idead was not good enough to solve the puzzle, i took a look at the option number 1 and it comes to me the idea of just handling the 2 lines **srand(time(NULL)); int fav_num = rand() % 1000000;** by myself  by importing the libc library and calling the *time* and the *srand* functions from there to just give me the same random value that the srand is giving, after that just passing that value to the guess_me function to get the flag. That idea was like more easier to implement that using the format string 
 
 
