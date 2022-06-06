@@ -128,7 +128,6 @@ from pwn import *
 from time import time
 from ctypes import CDLL
 
-# Target = remote('challenge.404ctf.fr', 31720)
 target = process('./distrib/vuln') #You have got to change your own path of the binary.
 # target = remote('fun.chall.seetf.sg', 50001)
 
